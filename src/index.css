@@ -9,6 +9,8 @@
   padding: 0;
   box-sizing: border-box;
   color: #fff;
+  background: none;
+  border: none;
 }
 
 body {

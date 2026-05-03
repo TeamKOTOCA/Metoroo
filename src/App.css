@@ -7,14 +7,16 @@ main{
     position: fixed;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
     bottom: 0;
     left: 0;
     padding: 5px;
     width: 100dvw;
     height: 80px;
     background-color: var(--nav-color);
+    z-index: 10;
 }
-#tab_nav button{
+#tab_nav button, #more_manu button{
     height: 70px;
     padding: 10px;
     text-align: center;
@@ -25,11 +27,40 @@ main{
     flex-direction: column;
     border-radius: 10px;
 }
-#tab_nav button:hover{
+#tab_nav button:hover, #more_manu button:hover{
     background-color: var(--hover-nav-color);
 }
-
+#tab_nav button.active, #more_manu button.active{
+    background-color: var(--hover-nav-color);
+}
 .nav_icon{
     color: #fff;
     height: calc(80px - 3em);
+}
+
+#more_manu{
+    position: fixed;
+    bottom: 80px;
+    padding: 5px;
+    gap: 10px;
+    left: 0;
+    height: fit-content;
+    width: 100svw;
+    background-color: var(--nav-color);
+    z-index: 10;
+}
+
+#more_manu div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+#more_manu div button{
+    align-items: center;
+}
+#overlay{
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: 5;
 }

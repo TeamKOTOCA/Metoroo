@@ -5,7 +5,7 @@ const Setting_ui = () => {
 
   return (
     <div>
-      設定
+      <h1>設定</h1>
       <button onClick={() => navigateByFileName('License')}>ライセンス表示</button>
     </div>
   );
