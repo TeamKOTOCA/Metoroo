@@ -4,7 +4,7 @@ import { NavigationProvider } from './navigation';
 import Metronome_icon from './assets/nav/metronome.svg?react';
 import Tuner_icon from './assets/nav/tuner.svg?react';
 import Moremanu_icon from './assets/nav/moremanu.svg?react';
-import Setting_icon from './assets/nav/Setting.svg?react';
+import Setting_icon from './assets/nav/setting.svg?react';
 import './App.css';
 
 const screensByFileName = {
