@@ -1,12 +1,14 @@
 :root{
     --main-color: #222222;
     --nav-color:  oklch(from var(--main-color) calc(l - 0.02) c h);
+    --hover-nav-color: color-mix(in srgb, var(--nav-color), #fff 20%);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: #fff;
 }
 
 body {
