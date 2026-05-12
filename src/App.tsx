@@ -18,61 +18,84 @@ type ScreenFileName = keyof typeof screensByFileName;
 
 function App() {
   const [currentScreenFileName, setCurrentScreenFileName] = useState<ScreenFileName>('Metronome');
+  const [isMoreMenuVisible, setIsMoreMenuVisible] = useState(false);
+
+  const toggleMoreMenu = (show: boolean) => setIsMoreMenuVisible(show);
 
   const navigateByFileName = useCallback((fileName: string) => {
     if (fileName in screensByFileName) {
       setCurrentScreenFileName(fileName as ScreenFileName);
-      toggle_moremanu(false);
+      toggleMoreMenu(false);
     }
   }, []);
 
   const CurrentScreen = screensByFileName[currentScreenFileName];
-
-  const [MoreManuisVisible, setMoreManuisVisible] = useState(false);
-
-  const toggle_moremanu = (show:boolean) => setMoreManuisVisible(show);
+  const isMoreScreenActive = !['Tuner', 'Metronome'].includes(currentScreenFileName);
 
   return (
     <NavigationProvider value={navigateByFileName}>
-      <main>
+      <main className="app_shell" aria-live="polite">
         <CurrentScreen />
       </main>
-      <div id="tab_nav">
-        <button className={currentScreenFileName === 'Metronome' ? 'active' : ''} onClick={() => navigateByFileName('Metronome')}>
-          <Metronome_icon className="nav_icon" />
-          メトロノーム
+      <nav id="tab_nav" aria-label="主要ナビゲーション">
+        <button
+          type="button"
+          className={currentScreenFileName === 'Metronome' ? 'active' : ''}
+          aria-current={currentScreenFileName === 'Metronome' ? 'page' : undefined}
+          onClick={() => navigateByFileName('Metronome')}
+        >
+          <Metronome_icon className="nav_icon" aria-hidden="true" />
+          <span>メトロノーム</span>
         </button>
-        <button className={currentScreenFileName === 'Tuner' ? 'active' : ''} onClick={() => navigateByFileName('Tuner')}>
-          <Tuner_icon className="nav_icon" />
-          チューナー
+        <button
+          type="button"
+          className={currentScreenFileName === 'Tuner' ? 'active' : ''}
+          aria-current={currentScreenFileName === 'Tuner' ? 'page' : undefined}
+          onClick={() => navigateByFileName('Tuner')}
+        >
+          <Tuner_icon className="nav_icon" aria-hidden="true" />
+          <span>チューナー</span>
         </button>
-        <button className={
-            MoreManuisVisible ||
-            ['Tuner', 'Metronome'].includes(currentScreenFileName)
-              ? ''
-              : 'active'
-          } onClick={() => toggle_moremanu(!MoreManuisVisible)}>
-          <Moremanu_icon className="nav_icon" />
-          その他
+        <button
+          type="button"
+          className={isMoreMenuVisible || isMoreScreenActive ? 'active' : ''}
+          aria-expanded={isMoreMenuVisible}
+          aria-controls="more_menu"
+          onClick={() => toggleMoreMenu(!isMoreMenuVisible)}
+        >
+          <Moremanu_icon className="nav_icon" aria-hidden="true" />
+          <span>その他</span>
         </button>
-      </div>
-      {MoreManuisVisible && (
+      </nav>
+      {isMoreMenuVisible && (
         <>
-        <div
-          id="overlay"
-          onClick={() => toggle_moremanu(false)}
-        />
-        <div id='more_manu'>
-          <h1>Metoroo</h1><small>v0.1.0</small>
+          <button
+            type="button"
+            id="overlay"
+            aria-label="その他メニューを閉じる"
+            onClick={() => toggleMoreMenu(false)}
+          />
+          <aside id="more_menu" aria-label="その他メニュー">
+            <div className="sheet_handle" aria-hidden="true" />
+            <div className="sheet_header">
+              <div>
+                <p className="eyebrow">軽量ミュージックツール</p>
+                <h1>Metoroo</h1>
+              </div>
+              <small>v0.1.0</small>
+            </div>
 
-          <div>
-            <button className={currentScreenFileName === 'Setting' ? 'active' : ''} onClick={() => navigateByFileName('Setting')}>
-              <Setting_icon className="nav_icon" />
-              設定
-            </button>
-          </div>
-          
-        </div>
+            <div className="sheet_grid">
+              <button
+                type="button"
+                className={currentScreenFileName === 'Setting' ? 'active' : ''}
+                onClick={() => navigateByFileName('Setting')}
+              >
+                <Setting_icon className="nav_icon" aria-hidden="true" />
+                <span>設定</span>
+              </button>
+            </div>
+          </aside>
         </>
       )}
     </NavigationProvider>

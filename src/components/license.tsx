@@ -1,28 +1,36 @@
 const License = () => {
   return (
-    <>
-        <h1>ライセンス</h1>
+    <section className="screen_stack" aria-labelledby="license-title">
+      <header className="hero_card">
+        <p className="eyebrow">Open source</p>
+        <h1 id="license-title">ライセンス</h1>
+        <p className="screen_lead">Metorooで利用している素材のクレジットです。</p>
+      </header>
+
+      <section className="control_card license_card" aria-label="ライセンス一覧">
         <h2>アイコン</h2>
-        <thead>
+        <table>
+          <thead>
             <tr>
-                <th>名前</th>
-                <th>作者</th>
-                <th>リンク</th>
+              <th>名前</th>
+              <th>作者</th>
+              <th>リンク</th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             <tr>
-                <td>Coolicons</td>
-                <td>Kryston Schwarze</td>
-                <td>
-                    <a href="https://coolicons.cool/" target="_blank" rel="noopener noreferrer">
-                    公式サイト
-                    </a>
-                </td>
+              <td>Coolicons</td>
+              <td>Kryston Schwarze</td>
+              <td>
+                <a href="https://coolicons.cool/" target="_blank" rel="noopener noreferrer">
+                  公式サイト
+                </a>
+              </td>
             </tr>
-            {/* 項目を増やす場合はここへ <tr>...</tr> を追加 */}
-        </tbody>
-    </>
+          </tbody>
+        </table>
+      </section>
+    </section>
   );
 };
 
