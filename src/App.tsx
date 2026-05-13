@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { License, Metronome, Setting, Tuner } from './components';
 import { NavigationProvider } from './navigation';
 import Metronome_icon from './assets/nav/metronome.svg?react';
@@ -16,16 +16,73 @@ const screensByFileName = {
 
 type ScreenFileName = keyof typeof screensByFileName;
 
+const routesByScreenFileName: Record<ScreenFileName, string> = {
+  Metronome: '/',
+  Tuner: '/tuner',
+  Setting: '/settings',
+  License: '/license',
+};
+
+const screensByRoute = new Map(
+  Object.entries(routesByScreenFileName).map(([screenFileName, route]) => [route, screenFileName as ScreenFileName]),
+);
+
+const normalizeRoute = (route: string) => {
+  const normalizedRoute = route.startsWith('/') ? route : `/${route}`;
+
+  return normalizedRoute.length > 1 ? normalizedRoute.replace(/\/+$/, '') : normalizedRoute;
+};
+
+const getScreenFileNameFromLocation = (): ScreenFileName => {
+  if (typeof window === 'undefined') {
+    return 'Metronome';
+  }
+
+  const hashRoute = window.location.hash.replace(/^#/, '');
+  const normalizedRoute = normalizeRoute(hashRoute || '/');
+
+  return screensByRoute.get(normalizedRoute) ?? 'Metronome';
+};
+
+const getHashForScreen = (screenFileName: ScreenFileName) => `#${routesByScreenFileName[screenFileName]}`;
+
 function App() {
-  const [currentScreenFileName, setCurrentScreenFileName] = useState<ScreenFileName>('Metronome');
+  const [currentScreenFileName, setCurrentScreenFileName] = useState<ScreenFileName>(getScreenFileNameFromLocation);
   const [isMoreMenuVisible, setIsMoreMenuVisible] = useState(false);
 
   const toggleMoreMenu = (show: boolean) => setIsMoreMenuVisible(show);
 
+  useEffect(() => {
+    const syncScreenWithHistory = () => {
+      setCurrentScreenFileName(getScreenFileNameFromLocation());
+      toggleMoreMenu(false);
+    };
+
+    window.history.replaceState(
+      { screen: getScreenFileNameFromLocation() },
+      '',
+      window.location.href,
+    );
+    window.addEventListener('popstate', syncScreenWithHistory);
+    window.addEventListener('hashchange', syncScreenWithHistory);
+
+    return () => {
+      window.removeEventListener('popstate', syncScreenWithHistory);
+      window.removeEventListener('hashchange', syncScreenWithHistory);
+    };
+  }, []);
+
   const navigateByFileName = useCallback((fileName: string) => {
     if (fileName in screensByFileName) {
-      setCurrentScreenFileName(fileName as ScreenFileName);
+      const nextScreenFileName = fileName as ScreenFileName;
+      const nextHash = getHashForScreen(nextScreenFileName);
+
+      setCurrentScreenFileName(nextScreenFileName);
       toggleMoreMenu(false);
+
+      if (window.location.hash !== nextHash) {
+        window.history.pushState({ screen: nextScreenFileName }, '', nextHash);
+      }
     }
   }, []);
 
