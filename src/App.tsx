@@ -18,19 +18,18 @@ type ScreenFileName = keyof typeof screensByFileName;
 
 function App() {
   const [currentScreenFileName, setCurrentScreenFileName] = useState<ScreenFileName>('Metronome');
+  const [MoreManuisVisible, setMoreManuisVisible] = useState(false);
+
+  const toggle_moremanu = useCallback((show: boolean) => setMoreManuisVisible(show), []);
 
   const navigateByFileName = useCallback((fileName: string) => {
     if (fileName in screensByFileName) {
       setCurrentScreenFileName(fileName as ScreenFileName);
       toggle_moremanu(false);
     }
-  }, []);
+  }, [toggle_moremanu]);
 
   const CurrentScreen = screensByFileName[currentScreenFileName];
-
-  const [MoreManuisVisible, setMoreManuisVisible] = useState(false);
-
-  const toggle_moremanu = (show:boolean) => setMoreManuisVisible(show);
 
   return (
     <NavigationProvider value={navigateByFileName}>

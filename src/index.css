@@ -18,3 +18,234 @@ body {
   min-height: 100vh;
   background-color: var(--main-color);
 }
+button, select, input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+select, option {
+  color: #111;
+}
+
+.screen {
+  min-height: 100dvh;
+  padding: 24px 18px 104px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: radial-gradient(circle at top, #3b3b46 0, var(--main-color) 48%);
+}
+
+.screen-header h1 {
+  font-size: clamp(2rem, 8vw, 4rem);
+}
+
+.eyebrow {
+  color: #9ee8ff;
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pendulum-card, .tuner-display, .pitch-history, .control-grid label, .offset-control {
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 24px;
+  background: rgb(255 255 255 / 7%);
+  box-shadow: 0 18px 45px rgb(0 0 0 / 24%);
+}
+
+.pendulum-card {
+  padding: 20px;
+}
+
+.pendulum-stage {
+  height: 230px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pendulum-stage::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #9ee8ff;
+  transform: translateX(-50%);
+}
+
+.pendulum-rod {
+  position: absolute;
+  top: 16px;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 190px;
+  border-radius: 99px;
+  background: linear-gradient(#fff, #9ee8ff);
+  transform-origin: top center;
+  transition: transform 120ms ease-out;
+}
+
+.pendulum-weight {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #ffcf66;
+  transform: translateX(-50%);
+}
+
+.beat-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.beat-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 28%);
+}
+
+.beat-dots span.active {
+  background: #ffcf66;
+  box-shadow: 0 0 18px #ffcf66;
+}
+
+.bpm-panel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) minmax(112px, 1.4fr) repeat(2, 1fr);
+  gap: 8px;
+  align-items: stretch;
+}
+
+.bpm-panel.compact {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.bpm-panel button, .primary-action {
+  min-height: 54px;
+  border-radius: 16px;
+  background: #405cff;
+  font-weight: 700;
+}
+
+.bpm-readout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bpm-readout strong {
+  font-size: 3rem;
+  line-height: 0.9;
+}
+
+.wide-slider, .offset-control input {
+  width: 100%;
+  accent-color: #9ee8ff;
+}
+
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.control-grid label, .offset-control {
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.control-grid select {
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+
+.primary-action {
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #ff7a59, #ffcf66);
+  color: #151515;
+}
+
+.tuner-display {
+  padding: 22px;
+  text-align: center;
+}
+
+.note-name {
+  font-size: clamp(4rem, 18vw, 8rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.cent-meter {
+  margin: 18px 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.cent-meter div {
+  position: relative;
+  height: 12px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #ff7a59, #9ee8ff 50%, #ff7a59);
+}
+
+.cent-meter i {
+  position: absolute;
+  top: -8px;
+  width: 4px;
+  height: 28px;
+  border-radius: 99px;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.in-tune { color: #9effb7; }
+.out-tune { color: #ffcf66; }
+
+.pitch-history {
+  position: relative;
+  min-height: 260px;
+  overflow: hidden;
+  background-image: linear-gradient(rgb(255 255 255 / 8%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 8%) 1px, transparent 1px);
+  background-size: 100% 28px, 28px 100%;
+}
+
+.pitch-history .center-line {
+  position: absolute;
+  inset: 0 auto 0 50%;
+  width: 3px;
+  background: rgb(158 232 255 / 70%);
+}
+
+.pitch-history span {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffcf66;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px #ffcf66;
+}
+
+@media (min-width: 760px) {
+  .screen {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+}
